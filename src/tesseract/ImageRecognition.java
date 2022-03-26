@@ -58,7 +58,7 @@ public class ImageRecognition {
                 }
             }
         }
-        System.out.println("The board has " + (board.length * board.length) + " elements in which " + ((double) mistake / (board.length * board.length) * 100) + "% were mistakes.");
+        System.out.println("The current board has " + (board.length * board.length) + " elements in which " + ((double) mistake / (board.length * board.length) * 100) + "% were mistakes.");
         System.out.println();
     }
 
