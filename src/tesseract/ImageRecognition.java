@@ -53,7 +53,6 @@ public class ImageRecognition {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 if (current_board[i][j] != board[i][j]) {
-                    System.out.println("swapping " + board[i][j] + " for " + current_board[i][j]);
                     board[i][j] = current_board[i][j];
                     mistake++;
                 }
