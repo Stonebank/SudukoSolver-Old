@@ -1,5 +1,7 @@
 package tesseract;
 
+import board.SudukoBoard;
+import net.sourceforge.tess4j.ITessAPI;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import settings.Settings;
@@ -11,10 +13,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ImageRecognition {
 
-    public static void main(String[] args) throws IOException, TesseractException {
+    public static void main(String[] args) throws IOException {
         ImageRecognition imageRecognition = new ImageRecognition(new File("./resources/image/board.png"));
 
         int y2 = imageRecognition.getImage().getHeight() / 9;
@@ -31,7 +34,7 @@ public class ImageRecognition {
 
     private final BufferedImage image;
 
-    private final ArrayList<Integer> number = new ArrayList<>();
+    private final int[][] board = new int[9][9];
 
     private final Tesseract tesseract;
 
@@ -60,26 +63,22 @@ public class ImageRecognition {
 
         try {
 
+            int col = 0;
+
             for (int row = 1; row <= 9; row++) {
                 File rowFile = new File("./resources/image/board_" + row + ".png");
                 String text = tesseract.doOCR(rowFile);
 
-                for (char c : text.toCharArray()) {
-
-                    if (Character.getNumericValue(c) <= -1 || Character.isAlphabetic(c) || c == '|' || c == ']' || c == '(')
-                        continue;
-
-                    number.add(c == ' ' ? 0 : Character.getNumericValue(c));
-
+                for (char c : text.replaceAll("[^\\d]", "").toCharArray()) {
+                    board[row - 1][col] = Character.getNumericValue(c);
+                    col++;
+                    if (col > 8)
+                        col = 0;
                 }
-
             }
 
-            for (int i = 0; i < number.size(); i++) {
-                System.out.print(number.get(i) + " ");
-                if (i % 9 == 0)
-                    System.out.println();
-            }
+            SudukoBoard sudukoBoard = new SudukoBoard(board, 9);
+            sudukoBoard.displayBoard();
 
         } catch (TesseractException e) {
             System.err.println("Tesseract could not perform OCR.");
