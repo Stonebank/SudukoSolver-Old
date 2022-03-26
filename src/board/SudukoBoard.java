@@ -15,7 +15,9 @@ public class SudukoBoard {
             for (int j = 0; j < size; j++) {
                 System.out.print(" " + board[i][j]);
             }
+            System.out.println();
         }
+        System.out.println();
     }
 
     public boolean canSolve() {
