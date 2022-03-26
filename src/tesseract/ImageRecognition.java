@@ -34,7 +34,34 @@ public class ImageRecognition {
 
     private final BufferedImage image;
 
+    // temp
     private final int[][] board = new int[9][9];
+    private final int[][] current_board = new int[][] {
+            { 9, 1, 3, 4, 2, 7, 0, 8, 0 },
+            { 6, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 2, 0, 0, 0, 0, 3, 0, 7, 0 },
+            { 0, 0, 0, 1, 0, 2, 0, 0, 8 },
+            { 0, 6, 2, 5, 0, 0, 0, 0, 3 },
+            { 5, 3, 8, 7, 0, 0, 2, 9, 0 },
+            { 3, 4, 0, 8, 7, 0, 0, 6, 0 },
+            { 0, 0, 6, 0, 4, 9, 8, 1, 5 },
+            { 8, 0, 1, 2, 0, 0, 0, 0, 0 }
+    };
+
+    private void correctBoard() {
+        int mistake = 0;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if (current_board[i][j] != board[i][j]) {
+                    System.out.println("swapping " + board[i][j] + " for " + current_board[i][j]);
+                    board[i][j] = current_board[i][j];
+                    mistake++;
+                }
+            }
+        }
+        System.out.println("The board has " + (board.length * board.length) + " elements in which " + ((double) mistake / (board.length * board.length) * 100) + "% were mistakes.");
+        System.out.println();
+    }
 
     private final Tesseract tesseract;
 
@@ -75,10 +102,19 @@ public class ImageRecognition {
                     if (col > 8)
                         col = 0;
                 }
+
             }
 
             SudukoBoard sudukoBoard = new SudukoBoard(board, 9);
             sudukoBoard.displayBoard();
+
+            correctBoard();
+
+            sudukoBoard.displayBoard();
+
+            System.out.println("solving....");
+            if (sudukoBoard.canSolve())
+                sudukoBoard.displayBoard();
 
         } catch (TesseractException e) {
             System.err.println("Tesseract could not perform OCR.");
