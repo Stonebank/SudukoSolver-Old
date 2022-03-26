@@ -28,18 +28,8 @@ public class Launch {
         System.out.println(board.canSolve() ? "Board solved:" : "Board cannot be solved.");
         board.displayBoard();
 
-        System.out.println("Board size: " + calcBoardSize());
+        System.out.println("Board size: " + (BOARD.length * BOARD.length));
 
-    }
-
-    private static int calcBoardSize() {
-        int num = 0;
-        for (int i = 0; i < Launch.BOARD.length; i++) {
-            for (int j = 0; j < Launch.BOARD.length; j++) {
-                num++;
-            }
-        }
-        return num;
     }
 
 }
