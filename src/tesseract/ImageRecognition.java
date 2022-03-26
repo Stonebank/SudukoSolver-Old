@@ -93,9 +93,9 @@ public class ImageRecognition {
 
             for (int row = 1; row <= 9; row++) {
                 File rowFile = new File("./resources/image/board_" + row + ".png");
-                String text = tesseract.doOCR(rowFile);
+                String rowOCR = tesseract.doOCR(rowFile);
 
-                for (char c : text.replaceAll("[^\\d]", "").toCharArray()) {
+                for (char c : rowOCR.replaceAll("[^\\d]", "").toCharArray()) {
                     board[row - 1][col] = Character.getNumericValue(c);
                     col++;
                     if (col > 8)
