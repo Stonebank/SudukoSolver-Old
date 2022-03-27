@@ -74,8 +74,8 @@ public class ImageRecognition {
         System.out.println("Initiating tesseract....");
 
         this.tesseract = new Tesseract();
-        tesseract.setDatapath("./resources/tesseract_data/");
-        tesseract.setTessVariable("user_defined_dpi", "300");
+        tesseract.setDatapath(Settings.TESSERACT_TRAINED_DATA.getPath());
+        tesseract.setTessVariable("user_defined_dpi", String.valueOf(Settings.TESSERACT_DPI));
 
         System.out.println("tesseract initiated!");
         System.out.println("user_defined_dpi set to: " + Settings.TESSERACT_DPI + "dpi");

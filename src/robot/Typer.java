@@ -5,36 +5,18 @@ import settings.Settings;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Typer {
 
-    public static void main(String[] args) throws AWTException {
-        int[][] current_board = new int[][] {
-                { 0, 1, 0, 0, 2, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 5, 0 },
-                { 6, 0, 0, 1, 0, 0, 0, 3, 8 },
-                { 0, 0, 4, 0, 0, 9, 0, 0, 0 },
-                { 3, 0, 0, 2, 0, 0, 0, 1, 6 },
-                { 0, 0, 0, 0, 0, 0, 7, 0, 0 },
-                { 0, 0, 0, 8, 0, 0, 5, 0, 0 },
-                { 7, 0, 0, 0, 0, 0, 2, 0, 0 },
-                { 0, 0, 3, 0, 4, 0, 0, 8, 7 }
-        };
-        new Typer(current_board);
-    }
-
     private final Robot robot;
 
-    private final int[][] board;
+    private final SudukoBoard board;
     private final int[][] keys = new int[9][9];
-
-    private final SudukoBoard sudukoBoard;
 
     private boolean activateRobot;
 
-    public Typer(int[][] board) throws AWTException {
+    public Typer(SudukoBoard board) throws AWTException {
         this.robot = new Robot();
         this.board = board;
 
@@ -42,15 +24,13 @@ public class Typer {
 
         sendToggleMessage();
 
-        this.sudukoBoard = new SudukoBoard(board, 9);
-
         while (scanner.hasNext()) {
             switch (scanner.nextLine().toLowerCase()) {
                 case "toggle" -> toggleRobot();
-                case "board" -> sudukoBoard.displayBoard();
+                case "board" -> board.displayBoard();
                 case "solve" -> {
                     if (activateRobot)
-                        test();
+                        solve();
                 }
                 default -> System.err.println("Input not registered");
             }
@@ -58,9 +38,9 @@ public class Typer {
 
     }
 
-    private void test() {
+    private void solve() {
 
-        if (!sudukoBoard.canSolve()) {
+        if (!board.canSolve()) {
             System.err.println("Sudoku board not solvable.");
             System.exit(0);
             return;
@@ -91,7 +71,7 @@ public class Typer {
             }
         }
 
-        sudukoBoard.displayBoard();
+        board.displayBoard();
         System.out.println("Sudoku solved in " + (System.currentTimeMillis() - start) + " ms");
 
         System.exit(0);
@@ -105,12 +85,12 @@ public class Typer {
     }
 
     private void convertKeys() {
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
+        for (int i = 0; i < board.getBoard().length; i++) {
+            for (int j = 0; j < board.getBoard().length; j++) {
                 try {
-                    keys[i][j] = KeyEvent.class.getField("VK_" + board[i][j]).getInt(null);
+                    keys[i][j] = KeyEvent.class.getField("VK_" + board.getBoard()[i][j]).getInt(null);
                 } catch (NoSuchFieldException | IllegalAccessException e) {
-                    System.err.println("Fault converting " + board[i][j] + ".");
+                    System.err.println("Fault converting " + board.getBoard()[i][j] + ".");
                     e.printStackTrace();
                 }
             }

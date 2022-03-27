@@ -77,4 +77,8 @@ public class SudukoBoard {
         return !inRow(row, num) && !inCol(col, num) && !inBox(row, col, num);
     }
 
+    public int[][] getBoard() {
+        return board;
+    }
+
 }
