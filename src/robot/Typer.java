@@ -12,15 +12,15 @@ public class Typer {
 
     public static void main(String[] args) throws AWTException {
         int[][] current_board = new int[][] {
-                { 9, 1, 3, 4, 2, 7, 0, 8, 0 },
-                { 6, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 2, 0, 0, 0, 0, 3, 0, 7, 0 },
-                { 0, 0, 0, 1, 0, 2, 0, 0, 8 },
-                { 0, 6, 2, 5, 0, 0, 0, 0, 3 },
-                { 5, 3, 8, 7, 0, 0, 2, 9, 0 },
-                { 3, 4, 0, 8, 7, 0, 0, 6, 0 },
-                { 0, 0, 6, 0, 4, 9, 8, 1, 5 },
-                { 8, 0, 1, 2, 0, 0, 0, 0, 0 }
+                { 0, 1, 0, 0, 2, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 5, 0 },
+                { 6, 0, 0, 1, 0, 0, 0, 3, 8 },
+                { 0, 0, 4, 0, 0, 9, 0, 0, 0 },
+                { 3, 0, 0, 2, 0, 0, 0, 1, 6 },
+                { 0, 0, 0, 0, 0, 0, 7, 0, 0 },
+                { 0, 0, 0, 8, 0, 0, 5, 0, 0 },
+                { 7, 0, 0, 0, 0, 0, 2, 0, 0 },
+                { 0, 0, 3, 0, 4, 0, 0, 8, 7 }
         };
         new Typer(current_board);
     }
@@ -75,16 +75,26 @@ public class Typer {
         }
 
         convertKeys();
+
+        long start = System.currentTimeMillis();
+
         for (int i = 0; i < keys.length; i++) {
             for (int j = 0; j < keys.length; j++) {
+                if (i > 0 && j % 9 == 0) {
+                    pressKey(Settings.ROBOT_DOWN);
+                    for (int k = 1; k <= 9; k++)
+                        pressKey(Settings.ROBOT_LEFT);
+                }
+                if (j != 0)
+                    pressKey(Settings.ROBOT_RIGHT);
                 pressKey(keys[i][j]);
-                pressKey(KeyEvent.VK_SPACE);
-                if (i > 0 && j % 9 == 0)
-                    pressKey(KeyEvent.VK_ENTER);
             }
         }
 
         sudukoBoard.displayBoard();
+        System.out.println("Sudoku solved in " + (System.currentTimeMillis() - start) + " ms");
+
+        System.exit(0);
     }
 
     private void pressKey(int key) {
