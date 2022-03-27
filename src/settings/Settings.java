@@ -6,7 +6,7 @@ public class Settings {
 
     public static final int TESSERACT_DPI = 300;
 
-    public static final int ROBOT_DELAY = 500;
+    public static final int ROBOT_DELAY = 10;
     public static final int ROBOT_START_DELAY = 5000;
     public static final int ROBOT_LEFT = 37;
     public static final int ROBOT_RIGHT = 39;
