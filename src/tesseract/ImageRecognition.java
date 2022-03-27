@@ -1,7 +1,6 @@
 package tesseract;
 
 import board.SudukoBoard;
-import net.sourceforge.tess4j.ITessAPI;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import settings.Settings;
@@ -12,13 +11,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ImageRecognition {
 
     public static void main(String[] args) throws IOException {
-        ImageRecognition imageRecognition = new ImageRecognition(new File("./resources/image/board.png"));
+        ImageRecognition imageRecognition = new ImageRecognition(Settings.BOARD_IMAGE);
 
         int y2 = imageRecognition.getImage().getHeight() / 9;
         int y1 = 1;
