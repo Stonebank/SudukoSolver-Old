@@ -93,20 +93,25 @@ public class ImageRecognition {
         try {
 
             int col = 0;
+            int rowIndex = 0;
 
             for (int row = 1; row <= 81; row++) {
                 File rowFile = new File("./resources/image/board_" + row + ".png");
                 String rowOCR = tesseract.doOCR(rowFile);
 
                 for (char c : rowOCR.replaceAll("[^\\d]", "").toCharArray()) {
-                    System.out.println(rowFile.getName() + " -> " + c);
-                    board[row - 1][col] = Character.getNumericValue(c);
+                    board[rowIndex][col] = Character.getNumericValue(c);
                     col++;
                     if (col > 8)
                         col = 0;
                 }
 
+                if (row % 9 == 0)
+                    rowIndex++;
+
             }
+
+            System.out.println("Row index: " + rowIndex);
 
             SudukoBoard sudukoBoard = new SudukoBoard(board, 9);
             sudukoBoard.displayBoard();
