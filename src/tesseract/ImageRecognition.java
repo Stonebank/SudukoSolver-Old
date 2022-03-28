@@ -33,7 +33,7 @@ public class ImageRecognition {
 
     // temp
     private final int[][] board = new int[9][9];
-    private final int[][] current_board = new int[][] {
+    private final int[][] pre_board = new int[][] {
             { 9, 1, 3, 4, 2, 7, 0, 8, 0 },
             { 6, 0, 0, 0, 0, 0, 0, 0, 0 },
             { 2, 0, 0, 0, 0, 3, 0, 7, 0 },
@@ -49,8 +49,8 @@ public class ImageRecognition {
         int mistake = 0;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
-                if (current_board[i][j] != board[i][j]) {
-                    board[i][j] = current_board[i][j];
+                if (pre_board[i][j] != board[i][j]) {
+                    board[i][j] = pre_board[i][j];
                     mistake++;
                 }
             }
