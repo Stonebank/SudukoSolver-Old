@@ -75,14 +75,14 @@ public class ImageRecognition {
     }
 
     public void cropColumns() {
-        int x1 = 1;
-        int y1 = 4;
+        int x1 = 4;
+        int y1 = 2;
         for (int i = 1; i <= 81; i++) {
             crop(getImage(), i, x1, y1,50, 50);
             x1 += 55;
             if (i % 9 == 0) {
-                x1 = 1;
-                y1 += 54;
+                x1 = 0;
+                y1 += 55;
             }
         }
     }
