@@ -6,6 +6,7 @@ public class Settings {
 
     public static final File TESSERACT_TRAINED_DATA = new File("./resources/tesseract_data/");
     public static final int TESSERACT_DPI = 300;
+    public static final int TESSERACT_PSM = 8;
 
     public static final int ROBOT_DELAY = 10;
     public static final int ROBOT_START_DELAY = 5000;

@@ -17,12 +17,22 @@ public class ImageRecognition {
     public static void main(String[] args) throws IOException {
         ImageRecognition imageRecognition = new ImageRecognition(Settings.BOARD_IMAGE);
 
-        int y2 = imageRecognition.getImage().getHeight() / 9;
+        /*int y2 = imageRecognition.getImage().getHeight() / 9;
         int y1 = 1;
 
         for (int i = 1; i <= 9; i++) {
             imageRecognition.crop(imageRecognition.getImage(), i, y1, imageRecognition.getImage().getWidth() - 1, y2);
             y1 += imageRecognition.getImage().getHeight() / 9;
+        }
+
+        imageRecognition.read();*/
+
+        int x1 = 1;
+        int y1 = 5;
+
+        for (int i = 1; i <= 9; i++) {
+            imageRecognition.crop(imageRecognition.getImage(), i, x1, y1,54, 58);
+            x1 += imageRecognition.getImage().getWidth() / 9;
         }
 
         imageRecognition.read();
@@ -76,9 +86,11 @@ public class ImageRecognition {
         this.tesseract = new Tesseract();
         tesseract.setDatapath(Settings.TESSERACT_TRAINED_DATA.getPath());
         tesseract.setTessVariable("user_defined_dpi", String.valueOf(Settings.TESSERACT_DPI));
+        tesseract.setPageSegMode(Settings.TESSERACT_PSM);
 
         System.out.println("tesseract initiated!");
         System.out.println("user_defined_dpi set to: " + Settings.TESSERACT_DPI + "dpi");
+        System.out.println("page_seg_mode set to: " + Settings.TESSERACT_PSM);
 
     }
 
@@ -93,6 +105,7 @@ public class ImageRecognition {
                 String rowOCR = tesseract.doOCR(rowFile);
 
                 for (char c : rowOCR.replaceAll("[^\\d]", "").toCharArray()) {
+                    System.out.println(rowFile.getName() + " -> " + c);
                     board[row - 1][col] = Character.getNumericValue(c);
                     col++;
                     if (col > 8)
@@ -118,8 +131,8 @@ public class ImageRecognition {
         }
     }
 
-    public void crop(BufferedImage source, int row, int startY, int endX, int endY) {
-        BufferedImage img = source.getSubimage(1, startY, endX, endY);
+    public void crop(BufferedImage source, int row, int startX, int startY, int endX, int endY) {
+        BufferedImage img = source.getSubimage(startX, startY, endX, endY);
 
         Graphics g = img.getGraphics();
         g.drawImage(img, 0, 0, null);
@@ -127,7 +140,7 @@ public class ImageRecognition {
 
         try {
             String name = "./resources/image/board_" + row + ".png";
-            System.out.println("Cropping (" + row + ", " + startY + ", " + endX + ", " + endY + "): " + name);
+            System.out.println("Cropping (" + row + ", " + startX + ", " + startY + ", " + endX + ", " + endY + "): " + name);
             ImageIO.write(img, "png", new File(name));
         } catch (IOException e) {
             System.err.println("Image could not be written.");
