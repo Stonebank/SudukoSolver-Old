@@ -17,22 +17,16 @@ public class ImageRecognition {
     public static void main(String[] args) throws IOException {
         ImageRecognition imageRecognition = new ImageRecognition(Settings.BOARD_IMAGE);
 
-        /*int y2 = imageRecognition.getImage().getHeight() / 9;
-        int y1 = 1;
-
-        for (int i = 1; i <= 9; i++) {
-            imageRecognition.crop(imageRecognition.getImage(), i, y1, imageRecognition.getImage().getWidth() - 1, y2);
-            y1 += imageRecognition.getImage().getHeight() / 9;
-        }
-
-        imageRecognition.read();*/
-
         int x1 = 1;
-        int y1 = 5;
+        int y1 = 6;
 
-        for (int i = 1; i <= 9; i++) {
-            imageRecognition.crop(imageRecognition.getImage(), i, x1, y1,54, 58);
-            x1 += imageRecognition.getImage().getWidth() / 9;
+        for (int i = 1; i <= 81; i++) {
+            imageRecognition.crop(imageRecognition.getImage(), i, x1, y1,50, 50);
+            x1 += 55;
+            if (i % 9 == 0) {
+                x1 = 1;
+                y1 += 55;
+            }
         }
 
         imageRecognition.read();
@@ -100,7 +94,7 @@ public class ImageRecognition {
 
             int col = 0;
 
-            for (int row = 1; row <= 9; row++) {
+            for (int row = 1; row <= 81; row++) {
                 File rowFile = new File("./resources/image/board_" + row + ".png");
                 String rowOCR = tesseract.doOCR(rowFile);
 
