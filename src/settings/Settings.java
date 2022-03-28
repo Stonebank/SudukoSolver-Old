@@ -4,6 +4,11 @@ import java.io.File;
 
 public class Settings {
 
+    public static final boolean DEBUG = false;
+
+    public static final File BOARD_IMAGE = new File("./resources/image/board.png");
+    public static final int SUDOKU_BOARD_SIZE = 9;
+
     public static final File TESSERACT_TRAINED_DATA = new File("./resources/tesseract_data/");
     public static final int TESSERACT_DPI = 300;
     public static final int TESSERACT_PSM = 8;
@@ -13,7 +18,5 @@ public class Settings {
     public static final int ROBOT_LEFT = 37;
     public static final int ROBOT_RIGHT = 39;
     public static final int ROBOT_DOWN = 40;
-
-    public static final File BOARD_IMAGE = new File("./resources/image/board.png");
 
 }

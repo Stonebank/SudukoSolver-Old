@@ -1,27 +1,33 @@
 import board.SudukoBoard;
 import robot.Typer;
+import settings.Settings;
+import tesseract.ImageRecognition;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class Launch {
 
-    private static final int[][] BOARD = new int[][] {
-            { 0, 0, 1, 7, 6, 0, 0, 0, 0 },
-            { 0, 0, 0, 0, 8, 0, 2, 5, 0 },
-            { 8, 2, 0, 4, 0, 9, 0, 1, 0 },
-            { 0, 9, 0, 5, 1, 0, 0, 3, 0 },
-            { 2, 1, 0, 0, 3, 6, 7, 0, 0 },
-            { 0, 5, 0, 8, 0, 4, 0, 9, 0 },
-            { 9, 6, 0, 0, 0, 0, 0, 0, 8 },
-            { 1, 0, 5, 6, 7, 0, 4, 0, 0 },
-            { 0, 7, 4, 2, 9, 0, 5, 0, 1 }
-    };
+    public static void main(String[] args) throws AWTException, IOException {
 
-    private final static int SIZE = 9;
+        // initiate new instance of ImageRecognition class
+        ImageRecognition imageRecognition = new ImageRecognition(Settings.BOARD_IMAGE);
 
-    public static void main(String[] args) throws AWTException {
-        SudukoBoard board = new SudukoBoard(BOARD, SIZE);
-        new Typer(board);
+        // crop each of the individual cells on the sudoku board
+        imageRecognition.cropColumns();
+
+        // read each of the individual cell with tesseract
+        imageRecognition.read();
+
+        // initiate new instance of the sudoku board algorithm
+        SudukoBoard board = new SudukoBoard(imageRecognition.getBoard(), Settings.SUDOKU_BOARD_SIZE);
+
+        // initiate new instance of Typer class
+        Typer typer = new Typer(board);
+
+        // initiate the class
+        typer.initiate();
+
     }
 
 }

@@ -19,7 +19,9 @@ public class Typer {
     public Typer(SudukoBoard board) throws AWTException {
         this.robot = new Robot();
         this.board = board;
+    }
 
+    public void initiate() {
         Scanner scanner = new Scanner(System.in);
 
         sendToggleMessage();
@@ -105,6 +107,7 @@ public class Typer {
     private void toggleRobot() {
         activateRobot = !activateRobot;
         System.out.println("Robot has been " + (activateRobot ? "enabled, type 'solve' to start." : "disabled") + ".");
+        sendToggleMessage();
     }
 
 }
