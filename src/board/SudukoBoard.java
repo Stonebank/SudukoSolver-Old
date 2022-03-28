@@ -57,7 +57,6 @@ public class SudukoBoard {
     private boolean inBox(int row, int col, int num) {
         int r = row - row % 3;
         int c = col - col % 3;
-
         for (int i = r; i < r + 3; i++) {
             for (int j = c; j < c + 3; j++) {
                 if (board[i][j] == num)
