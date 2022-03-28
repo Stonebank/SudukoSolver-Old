@@ -120,7 +120,7 @@ public class ImageRecognition {
 
             sudukoBoard.displayBoard();
 
-            System.out.println("solving....");
+            System.out.println("solving...");
             if (sudukoBoard.canSolve())
                 sudukoBoard.displayBoard();
 
