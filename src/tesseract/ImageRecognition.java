@@ -34,7 +34,6 @@ public class ImageRecognition {
         this.tesseract = new Tesseract();
         tesseract.setDatapath(Settings.TESSERACT_TRAINED_DATA.getPath());
         tesseract.setTessVariable("user_defined_dpi", String.valueOf(Settings.TESSERACT_DPI));
-        tesseract.setTessVariable("classify_enable_learning", "2");
         tesseract.setPageSegMode(Settings.TESSERACT_PSM);
 
         System.out.println("tesseract initiated!");
