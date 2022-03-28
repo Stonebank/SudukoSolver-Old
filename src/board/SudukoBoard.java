@@ -22,11 +22,8 @@ public class SudukoBoard {
 
     public boolean canSolve() {
         for (int row = 0; row < size; row++) {
-
             for (int col = 0; col < size; col++) {
-
                 if (board[row][col] == 0) {
-
                     for (int num = 1; num <= size; num++) {
                         if (isAccepted(row, col, num)) {
                             board[row][col] = num;
@@ -37,11 +34,8 @@ public class SudukoBoard {
                         }
                     }
                     return false;
-
                 }
-
             }
-
         }
         return true;
     }
