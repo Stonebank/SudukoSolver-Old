@@ -88,8 +88,8 @@ public class ImageRecognition {
         }
     }
 
-    private void crop(BufferedImage source, int row, int startX, int startY, int width, int height) {
-        BufferedImage img = source.getSubimage(startX, startY, width, height);
+    private void crop(BufferedImage source, int row, int x, int y, int width, int height) {
+        BufferedImage img = source.getSubimage(x, y, width, height);
 
         Graphics g = img.getGraphics();
         g.drawImage(img, 0, 0, null);
@@ -98,7 +98,7 @@ public class ImageRecognition {
         try {
             String name = "./resources/image/board_" + row + ".png";
             if (Settings.DEBUG)
-                System.out.println("Cropping (" + row + ", " + startX + ", " + startY + ", " + width + ", " + height + "): " + name);
+                System.out.println("Cropping (" + row + ", " + x + ", " + y + ", " + width + ", " + height + "): " + name);
             ImageIO.write(img, "png", new File(name));
         } catch (IOException e) {
             System.err.println("Image could not be written.");
