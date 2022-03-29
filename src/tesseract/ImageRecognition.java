@@ -2,6 +2,7 @@ package tesseract;
 
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
+import org.apache.xmlgraphics.image.loader.impl.PreloaderGIF;
 import settings.Settings;
 
 import javax.imageio.ImageIO;
@@ -87,8 +88,8 @@ public class ImageRecognition {
         }
     }
 
-    private void crop(BufferedImage source, int row, int startX, int startY, int endX, int endY) {
-        BufferedImage img = source.getSubimage(startX, startY, endX, endY);
+    private void crop(BufferedImage source, int row, int startX, int startY, int width, int height) {
+        BufferedImage img = source.getSubimage(startX, startY, width, height);
 
         Graphics g = img.getGraphics();
         g.drawImage(img, 0, 0, null);
@@ -97,7 +98,7 @@ public class ImageRecognition {
         try {
             String name = "./resources/image/board_" + row + ".png";
             if (Settings.DEBUG)
-                System.out.println("Cropping (" + row + ", " + startX + ", " + startY + ", " + endX + ", " + endY + "): " + name);
+                System.out.println("Cropping (" + row + ", " + startX + ", " + startY + ", " + width + ", " + height + "): " + name);
             ImageIO.write(img, "png", new File(name));
         } catch (IOException e) {
             System.err.println("Image could not be written.");
