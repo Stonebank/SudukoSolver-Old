@@ -3,7 +3,10 @@ import robot.Typer;
 import settings.Settings;
 import tesseract.ImageRecognition;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class Launch {
@@ -12,6 +15,11 @@ public class Launch {
 
         // initiate new instance of ImageRecognition class
         ImageRecognition imageRecognition = new ImageRecognition(Settings.BOARD_IMAGE);
+
+        // see if the table can be detected on screenshot
+        Point match = imageRecognition.match(ImageIO.read(Settings.SUDOKU_SCREENSHOT), ImageIO.read(Settings.SUDOKU_TOP_IMAGE));
+        if (match != null)
+            System.out.println("Match found at " + match.getLocation());
 
         // crop each of the individual cells on the sudoku board
         imageRecognition.cropColumns();

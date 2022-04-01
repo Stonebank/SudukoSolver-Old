@@ -13,6 +13,9 @@ public class Settings {
     public static final int TESSERACT_DPI = 300;
     public static final int TESSERACT_PSM = 8;
 
+    public static final File SUDOKU_TOP_IMAGE = new File("./resources/image/match/sudoku_top.png");
+    public static final File SUDOKU_SCREENSHOT = new File("./resources/image/match/screenshot.png");
+
     public static final int ROBOT_DELAY = 10;
     public static final int ROBOT_START_DELAY = 5000;
     public static final int ROBOT_LEFT = 37;

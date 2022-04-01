@@ -43,6 +43,24 @@ public class ImageRecognition {
 
     }
 
+    public Point match(BufferedImage mainImage, BufferedImage subImage) {
+        int x = mainImage.getWidth() - subImage.getWidth();
+        int y = mainImage.getHeight() - subImage.getHeight();
+        for (int i = 0; i <= x; i++) {
+            subimage:
+            for (int j = 0; j <= y; j++) {
+                for (int k = 0; k < subImage.getWidth(); k++) {
+                    for (int l = 0; l < subImage.getHeight(); l++) {
+                        if (subImage.getRGB(k, l) != mainImage.getRGB(i + k, j + l))
+                            continue subimage;
+                    }
+                }
+                return new Point(i, j);
+            }
+        }
+        return null;
+    }
+
     public void read() {
 
         try {
