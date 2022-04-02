@@ -17,6 +17,7 @@ public class Launch {
 
         // check if the application can open www.sudoku.com in the default browser
         if (imageRecognition.canOpenBrowser()) {
+
             // open www.sudoku.com if supported
             imageRecognition.openBrowser();
             // take screenshot
