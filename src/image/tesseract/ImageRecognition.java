@@ -182,15 +182,14 @@ public class ImageRecognition {
     public void openBrowser(String url) throws URISyntaxException, IOException {
         String os_name = System.getProperty("os.name").toLowerCase();
         if (os_name.startsWith("windows")) {
-            Desktop.getDesktop().browse(new URI("www.sudoku.com"));
+            Desktop.getDesktop().browse(new URI(url));
             return;
         }
         if (os_name.startsWith("mac")) {
-            Runtime rt = Runtime.getRuntime();
-            rt.exec("open " + url);
+            Runtime.getRuntime().exec("open " + url);
             return;
         }
-        System.err.println("Fault at detecting os... " + "(" + os_name + ")");
+        System.err.println("Fault at detecting or not supported os... " + "(" + os_name + ")");
     }
 
     public boolean canOpenBrowser() {
