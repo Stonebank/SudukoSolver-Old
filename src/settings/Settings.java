@@ -1,10 +1,14 @@
 package settings;
 
+import board.mode.Mode;
+
 import java.io.File;
 
 public class Settings {
 
     public static final boolean DEBUG = false;
+
+    public static Mode MODE;
 
     public static final File BOARD_IMAGE = new File("./resources/image/board.png");
     public static final int SUDOKU_BOARD_SIZE = 9;
@@ -16,7 +20,7 @@ public class Settings {
     public static final File SUDOKU_TOP_IMAGE = new File("./resources/image/match/sudoku_top.png");
     public static final File SUDOKU_SCREENSHOT = new File("./resources/image/match/screenshot.png");
     public static final int[] SUDOKU_TOP_COORDINATE = new int[] { 7, 15 };
-    public static final int SCREENSHOT_DELAY = 7500;
+    public static final int SCREENSHOT_DELAY = 6000;
 
     public static final int ROBOT_DELAY = 10;
     public static final int ROBOT_START_DELAY = 5000;

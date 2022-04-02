@@ -13,13 +13,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class ImageRecognition {
 
-    private final BufferedImage image;
+    private BufferedImage image;
+
+    private final File imgFile;
 
     private final Tesseract tesseract;
+
+    private final ArrayList<int[]> coordinate = new ArrayList<>();
 
     private final int[][] board = new int[9][9];
 
@@ -30,7 +34,7 @@ public class ImageRecognition {
         if (!file.exists())
            throw new FileNotFoundException(file.getPath() + " was not found.");
 
-        image = ImageIO.read(file);
+        this.imgFile = file;
 
         System.out.println("Image read: " + file.getPath());
         System.out.println("Initiating image.tesseract....");
@@ -78,20 +82,39 @@ public class ImageRecognition {
         }
     }
 
+    public void cropBoard() {
+        int x = coordinate.get(0)[0];
+        int y = coordinate.get(0)[1];
+        int width = coordinate.get(coordinate.size() - 1)[0] - x;
+        int height = coordinate.get(coordinate.size() - 1)[1] - y;
+        System.out.println("Cropping board...");
+
+        try {
+            crop(ImageIO.read(Settings.SUDOKU_SCREENSHOT), "board", x, y, width, height);
+            image = ImageIO.read(imgFile);
+        } catch (IOException e) {
+            System.err.println("Fault while cropping board");
+            e.printStackTrace();
+        }
+
+    }
+
     public void cropColumns() {
-        int x1 = 4;
-        int y1 = 2;
+        int x = 2;
+        int y = 2;
+        int width = 55 - x;
+        int height = 55 - y;
         for (int i = 1; i <= 81; i++) {
-            crop(getImage(), i, x1, y1,50, 50);
-            x1 += 55;
+            crop(getImage(), "board_" + i, x, y, width,  height);
+            x += 55;
             if (i % 9 == 0) {
-                x1 = 0;
-                y1 += 55;
+                x = 0;
+                y += 55;
             }
         }
     }
 
-    private void crop(BufferedImage source, int row, int x, int y, int width, int height) {
+    private void crop(BufferedImage source, String imgName, int x, int y, int width, int height) {
         BufferedImage img = source.getSubimage(x, y, width, height);
 
         Graphics g = img.getGraphics();
@@ -99,9 +122,9 @@ public class ImageRecognition {
         g.dispose();
 
         try {
-            String name = "./resources/image/board_" + row + ".png";
+            String name = "./resources/image/" + imgName + ".png";
             if (Settings.DEBUG)
-                System.out.println("Cropping (" + row + ", " + x + ", " + y + ", " + width + ", " + height + "): " + name);
+                System.out.println("Cropping (" + imgName + ", " + x + ", " + y + ", " + width + ", " + height + "): " + name);
             ImageIO.write(img, "png", new File(name));
         } catch (IOException e) {
             System.err.println("Image could not be written.");
@@ -114,7 +137,7 @@ public class ImageRecognition {
 
     public void takeScreenshot() {
 
-        System.out.println("Attempting to take a screenshot...");
+        System.out.println("Attempting to take a screenshot in " + Settings.SCREENSHOT_DELAY + " ms...");
 
         try {
 
@@ -123,7 +146,7 @@ public class ImageRecognition {
             Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
             ImageIO.write(new Robot().createScreenCapture(screenRect), "png", Settings.SUDOKU_SCREENSHOT);
 
-            System.out.println("Screenshot taken");
+            System.out.println("Screenshot successfully snapped");
 
         } catch (InterruptedException | AWTException | IOException e) {
             System.err.println("Screenshot has failed to be captured.");
@@ -132,20 +155,28 @@ public class ImageRecognition {
 
     }
 
-    public int[] match(BufferedImage mainImage, BufferedImage subImage) {
+    public void match(BufferedImage mainImage, BufferedImage subImage) {
         RGB sub_rgb = new RGB(subImage.getRGB(Settings.SUDOKU_TOP_COORDINATE[0], Settings.SUDOKU_TOP_COORDINATE[1]));
         for (int x = 0; x < mainImage.getWidth(); x++) {
             for (int y = 0; y < mainImage.getHeight(); y++) {
                 RGB main_rgb = new RGB(mainImage.getRGB(x, y));
                 if (hasMatch(main_rgb, sub_rgb))
-                    return new int[] { x, y };
+                    coordinate.add(new int[] { x, y } );
             }
         }
-        return null;
     }
+
 
     private boolean hasMatch(RGB main_rgb, RGB sub_rgb) {
         return main_rgb.getRed() == sub_rgb.getRed() && main_rgb.getGreen() == sub_rgb.getGreen() && main_rgb.getBlue() == sub_rgb.getBlue();
+    }
+
+    public boolean noMatch() {
+        return coordinate.isEmpty();
+    }
+
+    public ArrayList<int[]> getCoordinate() {
+        return coordinate;
     }
 
     public void openBrowser() throws URISyntaxException, IOException {

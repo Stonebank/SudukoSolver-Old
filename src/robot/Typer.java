@@ -1,10 +1,12 @@
 package robot;
 
 import board.SudukoBoard;
+import board.mode.Mode;
 import settings.Settings;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Typer {
@@ -19,6 +21,23 @@ public class Typer {
     public Typer(SudukoBoard board) throws AWTException {
         this.robot = new Robot();
         this.board = board;
+    }
+
+    public void initiateMode() {
+
+        sendModeMessage(true);
+
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (Settings.MODE == null) {
+                switch (scanner.nextLine().toLowerCase()) {
+                    case "0" -> Settings.MODE = Mode.HAS_SCREENSHOT;
+                    case "1" -> Settings.MODE = Mode.TAKE_SCREENSHOT;
+                    default -> sendModeMessage(false);
+                }
+            }
+        }
+
+        System.out.println("Mode selected: " + Settings.MODE);
     }
 
     public void initiate() {
@@ -98,6 +117,13 @@ public class Typer {
             }
         }
         System.out.println("Board digits has been converted to keys");
+    }
+
+    private void sendModeMessage(boolean welcomeMessage) {
+        if (welcomeMessage)
+            System.out.println("Welcome to Sudoku solver made by Hassan K. The application is under development. How should the application run?:");
+        for (int i = 0; i < Mode.values().length; i++)
+            System.out.println("Type " + i + " to enable " + Mode.values()[i]);
     }
 
     private void sendToggleMessage() {
