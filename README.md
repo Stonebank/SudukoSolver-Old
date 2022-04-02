@@ -5,8 +5,16 @@ This sudoku solver uses image.tesseract image recognition and the sudoku backtra
 
 # How to use
 
-1. Go to www.sudoku.com
-2. Take a screenshot of the table (go to resources/image/board.png for reference)
-3. Run application and follow instructions 
-4. Once you type solve, place the focus on the first cell of the sudoku table
-5. Finished.
+# Mode: TAKE_SCREENSHOT
+1. Run the application
+2. When console ask which mode, select "TAKE_SCREENSHOT"
+3. Let the application do the rest.
+
+# Mode: HAS_SCREENSHOT
+1. Run the application
+2. Take a screenshot of the sudoku table or a screenshot of your screen whilst the table is open
+3. Paste screenshot in resources/image/board.png
+4. Follow instructions in console
+
+
+This application has been tested with www.sudoku.com and on Windows 10.
