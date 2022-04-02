@@ -1,6 +1,6 @@
 # SudukoSolver
 
-This sudoku solver uses tesseract image recognition and the sudoku backtracking solving algorithm (https://en.wikipedia.org/wiki/Sudoku_solving_algorithms) and the java Robot class to read, identify and type the solution for you.
+This sudoku solver uses image.tesseract image recognition and the sudoku backtracking solving algorithm (https://en.wikipedia.org/wiki/Sudoku_solving_algorithms) and the java Robot class to read, identify and type the solution for you.
 
 
 # How to use

@@ -36,7 +36,7 @@ public class Launch {
             }
 
             // open www.sudoku.com if supported
-            imageRecognition.openBrowser();
+            imageRecognition.openBrowser("www.sudoku.com");
 
             // take screenshot
             imageRecognition.takeScreenshot();

@@ -179,8 +179,18 @@ public class ImageRecognition {
         return coordinate;
     }
 
-    public void openBrowser() throws URISyntaxException, IOException {
-        Desktop.getDesktop().browse(new URI("www.sudoku.com"));
+    public void openBrowser(String url) throws URISyntaxException, IOException {
+        String os_name = System.getProperty("os.name");
+        if (os_name.startsWith("windows")) {
+            Desktop.getDesktop().browse(new URI("www.sudoku.com"));
+            return;
+        }
+        if (os_name.startsWith("mac")) {
+            Runtime rt = Runtime.getRuntime();
+            rt.exec("open " + url);
+            return;
+        }
+        System.err.println("Fault at detecting os... " + "(" + os_name + ")");
     }
 
     public boolean canOpenBrowser() {
