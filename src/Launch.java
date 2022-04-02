@@ -1,30 +1,37 @@
 import board.SudukoBoard;
 import robot.Typer;
 import settings.Settings;
-import tesseract.ImageRecognition;
+import image.tesseract.ImageRecognition;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class Launch {
 
-    public static void main(String[] args) throws AWTException, IOException {
+    public static void main(String[] args) throws AWTException, IOException, URISyntaxException {
 
         // initiate new instance of ImageRecognition class
         ImageRecognition imageRecognition = new ImageRecognition(Settings.BOARD_IMAGE);
 
-        // see if the table can be detected on screenshot
-        Point match = imageRecognition.match(ImageIO.read(Settings.SUDOKU_SCREENSHOT), ImageIO.read(Settings.SUDOKU_TOP_IMAGE));
-        if (match != null)
-            System.out.println("Match found at " + match.getLocation());
+        // check if the application can open www.sudoku.com in the default browser
+        if (imageRecognition.canOpenBrowser()) {
+            // open www.sudoku.com if supported
+            imageRecognition.openBrowser();
+            // take screenshot
+            imageRecognition.takeScreenshot();
+
+            int[] match = imageRecognition.match(ImageIO.read(Settings.SUDOKU_SCREENSHOT), ImageIO.read(Settings.SUDOKU_TOP_IMAGE));
+            if (match != null)
+                System.out.println("Match found at " + match[0] + ", " + match[1]);
+
+        }
 
         // crop each of the individual cells on the sudoku board
         imageRecognition.cropColumns();
 
-        // read each of the individual cell with tesseract
+        // read each of the individual cell with image.tesseract
         imageRecognition.read();
 
         // initiate new instance of the sudoku board algorithm

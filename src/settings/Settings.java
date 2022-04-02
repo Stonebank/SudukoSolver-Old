@@ -15,6 +15,8 @@ public class Settings {
 
     public static final File SUDOKU_TOP_IMAGE = new File("./resources/image/match/sudoku_top.png");
     public static final File SUDOKU_SCREENSHOT = new File("./resources/image/match/screenshot.png");
+    public static final int[] SUDOKU_TOP_COORDINATE = new int[] { 7, 15 };
+    public static final int SCREENSHOT_DELAY = 7500;
 
     public static final int ROBOT_DELAY = 10;
     public static final int ROBOT_START_DELAY = 5000;

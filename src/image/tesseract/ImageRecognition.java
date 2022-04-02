@@ -1,8 +1,8 @@
-package tesseract;
+package image.tesseract;
 
+import image.RGB;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
-import org.apache.xmlgraphics.image.loader.impl.PreloaderGIF;
 import settings.Settings;
 
 import javax.imageio.ImageIO;
@@ -11,6 +11,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
 
 public class ImageRecognition {
 
@@ -30,35 +33,17 @@ public class ImageRecognition {
         image = ImageIO.read(file);
 
         System.out.println("Image read: " + file.getPath());
-        System.out.println("Initiating tesseract....");
+        System.out.println("Initiating image.tesseract....");
 
         this.tesseract = new Tesseract();
         tesseract.setDatapath(Settings.TESSERACT_TRAINED_DATA.getPath());
         tesseract.setTessVariable("user_defined_dpi", String.valueOf(Settings.TESSERACT_DPI));
         tesseract.setPageSegMode(Settings.TESSERACT_PSM);
 
-        System.out.println("tesseract initiated!");
+        System.out.println("image.tesseract initiated!");
         System.out.println("user_defined_dpi set to: " + Settings.TESSERACT_DPI + "dpi");
         System.out.println("page_seg_mode set to: " + Settings.TESSERACT_PSM);
 
-    }
-
-    public Point match(BufferedImage mainImage, BufferedImage subImage) {
-        int x = mainImage.getWidth() - subImage.getWidth();
-        int y = mainImage.getHeight() - subImage.getHeight();
-        for (int i = 0; i <= x; i++) {
-            subimage:
-            for (int j = 0; j <= y; j++) {
-                for (int k = 0; k < subImage.getWidth(); k++) {
-                    for (int l = 0; l < subImage.getHeight(); l++) {
-                        if (subImage.getRGB(k, l) != mainImage.getRGB(i + k, j + l))
-                            continue subimage;
-                    }
-                }
-                return new Point(i, j);
-            }
-        }
-        return null;
     }
 
     public void read() {
@@ -120,9 +105,55 @@ public class ImageRecognition {
             ImageIO.write(img, "png", new File(name));
         } catch (IOException e) {
             System.err.println("Image could not be written.");
+            e.printStackTrace(); {
+
+            }
+        }
+
+    }
+
+    public void takeScreenshot() {
+
+        System.out.println("Attempting to take a screenshot...");
+
+        try {
+
+            Thread.sleep(Settings.SCREENSHOT_DELAY);
+
+            Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+            ImageIO.write(new Robot().createScreenCapture(screenRect), "png", Settings.SUDOKU_SCREENSHOT);
+
+            System.out.println("Screenshot taken");
+
+        } catch (InterruptedException | AWTException | IOException e) {
+            System.err.println("Screenshot has failed to be captured.");
             e.printStackTrace();
         }
 
+    }
+
+    public int[] match(BufferedImage mainImage, BufferedImage subImage) {
+        RGB sub_rgb = new RGB(subImage.getRGB(Settings.SUDOKU_TOP_COORDINATE[0], Settings.SUDOKU_TOP_COORDINATE[1]));
+        for (int x = 0; x < mainImage.getWidth(); x++) {
+            for (int y = 0; y < mainImage.getHeight(); y++) {
+                RGB main_rgb = new RGB(mainImage.getRGB(x, y));
+                if (hasMatch(main_rgb, sub_rgb))
+                    return new int[] { x, y };
+            }
+        }
+        return null;
+    }
+
+    private boolean hasMatch(RGB main_rgb, RGB sub_rgb) {
+        return main_rgb.getRed() == sub_rgb.getRed() && main_rgb.getGreen() == sub_rgb.getGreen() && main_rgb.getBlue() == sub_rgb.getBlue();
+    }
+
+    public void openBrowser() throws URISyntaxException, IOException {
+        Desktop.getDesktop().browse(new URI("www.sudoku.com"));
+    }
+
+    public boolean canOpenBrowser() {
+        return Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE);
     }
 
     public BufferedImage getImage() {
