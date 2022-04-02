@@ -6,10 +6,11 @@ import settings.Settings;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Typer {
+
+    private final Scanner scanner;
 
     private final Robot robot;
 
@@ -19,6 +20,7 @@ public class Typer {
     private boolean activateRobot;
 
     public Typer(SudukoBoard board) throws AWTException {
+        this.scanner = new Scanner(System.in);
         this.robot = new Robot();
         this.board = board;
     }
@@ -27,21 +29,28 @@ public class Typer {
 
         sendModeMessage(true);
 
-        try (Scanner scanner = new Scanner(System.in)) {
-            while (Settings.MODE == null) {
-                switch (scanner.nextLine().toLowerCase()) {
-                    case "0" -> Settings.MODE = Mode.HAS_SCREENSHOT;
-                    case "1" -> Settings.MODE = Mode.TAKE_SCREENSHOT;
-                    default -> sendModeMessage(false);
-                }
+        while (Settings.MODE == null) {
+
+            switch (scanner.nextLine().toLowerCase()) {
+                case "0" -> Settings.MODE = Mode.HAS_SCREENSHOT;
+                case "1" -> Settings.MODE = Mode.TAKE_SCREENSHOT;
+                default -> sendModeMessage(false);
             }
+
+            System.out.println("Mode selected: " + Settings.MODE);
+
         }
 
-        System.out.println("Mode selected: " + Settings.MODE);
     }
 
     public void initiate() {
-        Scanner scanner = new Scanner(System.in);
+
+        if (Settings.MODE == Mode.TAKE_SCREENSHOT) {
+            activateRobot = true;
+            solve();
+            scanner.close();
+            return;
+        }
 
         sendToggleMessage();
 

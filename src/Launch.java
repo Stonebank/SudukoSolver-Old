@@ -23,8 +23,7 @@ public class Launch {
         Typer typer = new Typer(board);
 
         // allows user to choose which mode the application should run
-        //typer.initiateMode();
-        Settings.MODE = Mode.TAKE_SCREENSHOT;
+        typer.initiateMode();
 
         // if the selected mode is "TAKE_SCREENSHOT", the machine will attempt to open the default browser and take a screenshot.
         if (Settings.MODE == Mode.TAKE_SCREENSHOT) {
