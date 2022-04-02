@@ -180,7 +180,7 @@ public class ImageRecognition {
     }
 
     public void openBrowser(String url) throws URISyntaxException, IOException {
-        String os_name = System.getProperty("os.name");
+        String os_name = System.getProperty("os.name").toLowerCase();
         if (os_name.startsWith("windows")) {
             Desktop.getDesktop().browse(new URI("www.sudoku.com"));
             return;
