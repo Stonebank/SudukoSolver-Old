@@ -13,6 +13,9 @@ public class Settings {
     public static final File BOARD_IMAGE = new File("./resources/image/board.png");
     public static final int SUDOKU_BOARD_SIZE = 9;
 
+    public static final File NOTIFICATION_ICON = new File("./resources/image/icon/notification_icon.png");
+    public static final boolean NOTIFICATION_IMAGE_RESIZE = true;
+
     public static final File TESSERACT_TRAINED_DATA = new File("./resources/tesseract_data/");
     public static final int TESSERACT_DPI = 300;
     public static final int TESSERACT_PSM = 8;

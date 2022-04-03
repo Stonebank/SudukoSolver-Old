@@ -1,6 +1,7 @@
 import board.SudukoBoard;
 import board.mode.Mode;
 import image.tesseract.ImageRecognition;
+import image.trayicon.Notification;
 import robot.Typer;
 import settings.Settings;
 
@@ -28,9 +29,12 @@ public class Launch {
         // if the selected mode is "TAKE_SCREENSHOT", the machine will attempt to open the default browser and take a screenshot.
         if (Settings.MODE == Mode.TAKE_SCREENSHOT) {
 
+            Notification.send(new Notification("You have selected " + Settings.MODE + "."));
+
             // check if the application can open www.sudoku.com in the default browser
             if (!imageRecognition.canOpenBrowser()) {
                 System.err.println(Mode.TAKE_SCREENSHOT + " is not supported on your machine.");
+                Notification.send(new Notification(Mode.TAKE_SCREENSHOT + " is not supported on your machine."));
                 return;
             }
 
@@ -44,6 +48,7 @@ public class Launch {
             imageRecognition.match(ImageIO.read(Settings.SUDOKU_SCREENSHOT), ImageIO.read(Settings.SUDOKU_TOP_IMAGE));
             if (imageRecognition.noMatch()) {
                 System.err.println("There were no RGB matches detected for the sudoku table. Try mode: " + Mode.HAS_SCREENSHOT + " after saving a screenshot in " + Settings.BOARD_IMAGE);
+                Notification.send(new Notification("There were no RGB matches detected for the sudoku table. Try mode: " + Mode.HAS_SCREENSHOT + " after saving a screenshot in " + Settings.BOARD_IMAGE));
                 return;
             }
 

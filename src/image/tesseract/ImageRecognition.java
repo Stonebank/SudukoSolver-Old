@@ -1,6 +1,7 @@
 package image.tesseract;
 
 import image.RGB;
+import image.trayicon.Notification;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import settings.Settings;
@@ -135,9 +136,10 @@ public class ImageRecognition {
 
     }
 
-    public void takeScreenshot() {
+    public void takeScreenshot() throws IOException {
 
         System.out.println("Attempting to take a screenshot in " + Settings.SCREENSHOT_DELAY + " ms...");
+        Notification.send(new Notification("Attempting to take a screenshot in " + Settings.SCREENSHOT_DELAY + " ms..."));
 
         try {
 
@@ -147,6 +149,7 @@ public class ImageRecognition {
             ImageIO.write(new Robot().createScreenCapture(screenRect), "png", Settings.SUDOKU_SCREENSHOT);
 
             System.out.println("Screenshot successfully snapped");
+            Notification.send(new Notification("Screenshot successfully snapped"));
 
         } catch (InterruptedException | AWTException | IOException e) {
             System.err.println("Screenshot has failed to be captured.");
