@@ -23,16 +23,16 @@ public class Notification {
         tray.setImageAutoSize(Settings.NOTIFICATION_IMAGE_RESIZE);
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public static void send(Notification notification) {
         if (!SystemTray.isSupported()) {
             System.err.println("Notification is not supported on this machine.");
             return;
         }
         notification.tray.displayMessage("Sudoku", notification.getDescription(), TrayIcon.MessageType.INFO);
+    }
+
+    public String getDescription() {
+        return description;
     }
 
 }
