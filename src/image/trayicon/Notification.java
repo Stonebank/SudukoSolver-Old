@@ -19,8 +19,9 @@ public class Notification {
         if (!Settings.NOTIFICATION_ICON.exists())
             throw new FileNotFoundException(Settings.NOTIFICATION_ICON.getPath() + " was not found.");
 
-        this.tray = new TrayIcon(Toolkit.getDefaultToolkit().createImage(ImageIO.read(Settings.NOTIFICATION_ICON).getSource()), "Sudoku");
-        tray.setImageAutoSize(Settings.NOTIFICATION_IMAGE_RESIZE);
+        this.tray = new TrayIcon(Toolkit.getDefaultToolkit().getImage("./resources/image/icon/notification_icon.png"), "Sudoku");
+        this.tray.setImageAutoSize(Settings.NOTIFICATION_IMAGE_RESIZE);
+
     }
 
     public static void send(Notification notification) {
