@@ -29,14 +29,14 @@ public class Launch {
         // if the selected mode is "TAKE_SCREENSHOT", the machine will attempt to open the default browser and take a screenshot.
         if (Settings.MODE == Mode.TAKE_SCREENSHOT) {
 
-            Notification.send(new Notification("You have selected " + Settings.MODE + "."));
-
             // check if the application can open www.sudoku.com in the default browser
             if (!imageRecognition.canOpenBrowser()) {
                 System.err.println(Mode.TAKE_SCREENSHOT + " is not supported on your machine.");
                 Notification.send(new Notification(Mode.TAKE_SCREENSHOT + " is not supported on your machine."));
                 return;
             }
+
+            Notification.send(new Notification("You have selected " + Settings.MODE + "."));
 
             // open www.sudoku.com if supported
             imageRecognition.openBrowser("https://www.sudoku.com");
