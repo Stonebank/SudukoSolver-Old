@@ -85,12 +85,14 @@ public class ImageRecognition {
         }
     }
 
-    public void cropBoard() {
+    public void cropBoard() throws IOException, AWTException {
         int x = coordinate.get(0)[0];
         int y = coordinate.get(0)[1];
         int width = coordinate.get(coordinate.size() - 1)[0] - x;
         int height = coordinate.get(coordinate.size() - 1)[1] - y;
         System.out.println("Cropping board...");
+
+        Notification.send(new Notification("Cropping board..."));
 
         try {
             crop(ImageIO.read(Settings.SUDOKU_SCREENSHOT), "board", x, y, width, height);
@@ -138,7 +140,7 @@ public class ImageRecognition {
 
     }
 
-    public void takeScreenshot() throws IOException {
+    public void takeScreenshot() throws IOException, AWTException {
 
         System.out.println("Attempting to take a screenshot in " + Settings.SCREENSHOT_DELAY + " ms...");
         Notification.send(new Notification("Attempting to take a screenshot in " + Settings.SCREENSHOT_DELAY + " ms..."));
@@ -155,6 +157,7 @@ public class ImageRecognition {
 
         } catch (InterruptedException | AWTException | IOException e) {
             System.err.println("Screenshot has failed to be captured.");
+            Notification.send(new Notification("Could not capture screenshot"));
             e.printStackTrace();
         }
 

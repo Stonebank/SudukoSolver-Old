@@ -2,10 +2,12 @@ package robot;
 
 import board.SudukoBoard;
 import board.mode.Mode;
+import image.trayicon.Notification;
 import settings.Settings;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Typer {
@@ -43,7 +45,7 @@ public class Typer {
 
     }
 
-    public void initiate() {
+    public void initiate() throws IOException, AWTException {
 
         if (Settings.MODE == Mode.TAKE_SCREENSHOT) {
             activateRobot = true;
@@ -68,16 +70,18 @@ public class Typer {
 
     }
 
-    private void solve() {
+    private void solve() throws IOException, AWTException {
 
         if (!board.canSolve()) {
             System.err.println("Sudoku board not solvable.");
+            Notification.send(new Notification("Something went wrong, try again."));
             System.exit(0);
             return;
         }
 
         try {
             System.out.println("Starting in " + Settings.ROBOT_START_DELAY + " ms.");
+            Notification.send(new Notification("Starting in " + Settings.ROBOT_START_DELAY + " ms."));
             Thread.sleep(Settings.ROBOT_START_DELAY);
         } catch (InterruptedException e) {
             System.err.println("Robot was interrupted.");
@@ -103,6 +107,7 @@ public class Typer {
 
         board.displayBoard();
         System.out.println("Sudoku solved in " + (System.currentTimeMillis() - start) + " ms");
+        Notification.send(new Notification("Sudoku solved in " + (System.currentTimeMillis() - start) + " ms"));
 
         System.exit(0);
     }
