@@ -13,7 +13,7 @@ public class Notification {
 
     private final TrayIcon tray;
 
-    public Notification(String description) throws IOException {
+    public Notification(String description) throws IOException, AWTException {
         this.description = description;
 
         if (!Settings.NOTIFICATION_ICON.exists())
@@ -21,6 +21,9 @@ public class Notification {
 
         this.tray = new TrayIcon(Toolkit.getDefaultToolkit().getImage("./resources/image/icon/notification_icon.png"), "Sudoku");
         this.tray.setImageAutoSize(Settings.NOTIFICATION_IMAGE_RESIZE);
+
+        SystemTray systemTray = SystemTray.getSystemTray();
+        systemTray.add(tray);
 
     }
 
