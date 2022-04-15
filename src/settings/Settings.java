@@ -19,6 +19,7 @@ public class Settings {
     public static final File TESSERACT_TRAINED_DATA = new File("./resources/tesseract_data/");
     public static final int TESSERACT_DPI = 300;
     public static final int TESSERACT_PSM = 8;
+    public static final int TESSERACT_OEM = 2;
 
     public static final File SUDOKU_TOP_IMAGE = new File("./resources/image/match/sudoku_top.png");
     public static final File SUDOKU_SCREENSHOT = new File("./resources/image/match/screenshot.png");

@@ -44,10 +44,12 @@ public class ImageRecognition {
         tesseract.setDatapath(Settings.TESSERACT_TRAINED_DATA.getPath());
         tesseract.setTessVariable("user_defined_dpi", String.valueOf(Settings.TESSERACT_DPI));
         tesseract.setPageSegMode(Settings.TESSERACT_PSM);
+        tesseract.setOcrEngineMode(Settings.TESSERACT_OEM);
 
         System.out.println("image.tesseract initiated!");
         System.out.println("user_defined_dpi set to: " + Settings.TESSERACT_DPI + "dpi");
         System.out.println("page_seg_mode set to: " + Settings.TESSERACT_PSM);
+        System.out.println("ocr_engine_mode set to: " + Settings.TESSERACT_OEM);
 
     }
 
