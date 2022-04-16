@@ -21,6 +21,8 @@ public class Typer {
 
     private boolean activateRobot;
 
+    private String game_mode;
+
     public Typer(SudukoBoard board) throws AWTException {
         this.scanner = new Scanner(System.in);
         this.robot = new Robot();
@@ -42,6 +44,28 @@ public class Typer {
             System.out.println("Mode selected: " + Settings.MODE);
 
         }
+
+    }
+
+    public void initiateDifficulty() throws IOException, AWTException {
+
+        sendDifficultyMessage();
+
+        while (game_mode == null) {
+
+            switch (scanner.nextLine().toLowerCase()) {
+                case "easy" -> game_mode = "easy";
+                case "medium" -> game_mode = "medium";
+                case "hard" -> game_mode = "hard";
+                case "expert" -> game_mode = "expert";
+                case "evil" -> game_mode = "evil";
+                default -> sendDifficultyMessage();
+            }
+
+        }
+
+        System.out.println("You selected difficulty level: " + game_mode);
+        Notification.send(new Notification("You selected " + game_mode + "."));
 
     }
 
@@ -133,6 +157,10 @@ public class Typer {
         System.out.println("Board digits has been converted to keys");
     }
 
+    private void sendDifficultyMessage() {
+        System.out.println("Select difficulty: easy, medium, hard, expert or evil");
+    }
+
     private void sendModeMessage(boolean welcomeMessage) {
         if (welcomeMessage)
             System.out.println("Welcome to Sudoku solver made by Hassan K. The application is under development. How should the application run?:");
@@ -150,4 +178,7 @@ public class Typer {
         sendToggleMessage();
     }
 
+    public String getGameMode() {
+        return game_mode;
+    }
 }
