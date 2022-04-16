@@ -16,5 +16,11 @@ This sudoku solver uses image.tesseract image recognition and the sudoku backtra
 3. Paste screenshot in resources/image/board.png
 4. Follow instructions in console
 
+# NOTE:
+* The Sudoku solver, as of 16/04/2022, will not always guarantee a solution. This will improve overtime as more development is put into it.
 
-This application has been tested with www.sudoku.com and on Windows 10.
+# TO-DO:
+* proper image processing 
+
+
+This application has been tested with www.sudoku.com and on Windows 11.
