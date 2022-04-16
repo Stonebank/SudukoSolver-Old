@@ -23,8 +23,9 @@ public class RGB {
         return rgb[2];
     }
 
-    public int[] getRgb() {
-        return rgb;
+    @Override
+    public String toString() {
+        return "RGB output: [R: " + rgb[0] + " G: " + rgb[1] + " B: " + rgb[2] + "]";
     }
 
 }
