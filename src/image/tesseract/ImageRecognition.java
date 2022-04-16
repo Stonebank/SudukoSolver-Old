@@ -27,6 +27,7 @@ public class ImageRecognition {
     private final ArrayList<int[]> coordinate = new ArrayList<>();
 
     private final int[][] board = new int[9][9];
+    private final int board_length = board.length * board.length;
 
     public ImageRecognition(File file) throws IOException {
 
@@ -60,7 +61,7 @@ public class ImageRecognition {
             int col = 0;
             int rowIndex = 0;
 
-            for (int row = 1; row <= 81; row++) {
+            for (int row = 1; row <= board_length; row++) {
                 File rowFile = new File("./resources/image/board_" + row + ".png");
                 String rowOCR = tesseract.doOCR(rowFile);
 
@@ -113,7 +114,7 @@ public class ImageRecognition {
         int y = 2;
         int width = 55 - x;
         int height = 55 - y;
-        for (int i = 1; i <= 81; i++) {
+        for (int i = 1; i <= board_length; i++) {
             crop(getImage(), "board_" + i, x, y, width,  height);
             x += 55;
             if (i % 9 == 0) {
