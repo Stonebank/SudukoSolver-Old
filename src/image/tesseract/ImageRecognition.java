@@ -65,12 +65,16 @@ public class ImageRecognition {
                 String rowOCR = tesseract.doOCR(rowFile);
 
                 for (String c : rowOCR.replaceAll("[^\\d\\s]", "").split("")) {
+
                     if (c.isEmpty() || c.isBlank())
                         c = "0";
+
                     board[rowIndex][col] = Integer.parseInt(c);
+
                     col++;
                     if (col > 8)
                         col = 0;
+
                     break;
                 }
 
